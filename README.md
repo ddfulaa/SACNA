@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="580" height="450" src="https://github.com/ddfulaa/SACNA/blob/main/sacna_logo.png?raw=true">
+  <img width="58" height="45" src="https://github.com/ddfulaa/SACNA/blob/main/sacna_logo.png?raw=true">
 </p>
 
 # SACNA (Semi-Algebraic Chemical Network Analyzer)
