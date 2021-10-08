@@ -1,2 +1,2 @@
 # SACNA
-Semi-algebraic Chemical Network Analyzer
+Semi-Algebraic Chemical Network Analyzer
