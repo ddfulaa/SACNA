@@ -1,7 +1,7 @@
 ![Texto alternativo](sacna_logo.png)
 
 <p align="center">
-  <img width="600" height="200" src="https://www.python.org/python-.png">
+  <img width="600" height="200" src="https://github.com/ddfulaa/SACNA/blob/main/sacna_logo.png?raw=true">
 </p>
 # SACNA (Semi-Algebraic Chemical Network Analyzer)
 
