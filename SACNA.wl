@@ -31,6 +31,7 @@ RunSimplifiedAnalysis::usage="RunSimplifiedAnalysis[Lista de Reacciones, Lista d
 RunSemiAlgebraicAnalysisWithInitialValues::usage="RunSemiAlgebraicAnalysisWithInitialValues[reacciones, Razones, tiempo, Lista de par\[AAcute]metros a sustituir] "
 RunSimplifiedAnalysisWithInitialValues::usage="RunSimplifiedAnalysisWithInitialValues[reacciones, Razones, tiempo, n\[UAcute]mero de condici\[OAcute]n en la tabla de Routh-Huwrwitz, Lista de par\[AAcute]metros a sustituir] "
 ExportToChemKinLator::usage="ExportToChemKinLator[reacciones_,Rates_,CADsolutionInstance_,ATOL_, delta_, RTOL_, T0_, Tmax_] "
+GetReactionsAndRates::usage= "GetReactionsAndRates[Reactions' list, rates' list]"
 
 Begin["`Private`"]
 
@@ -212,7 +213,8 @@ CondicionesSemialgebraicas2 =Simplify[Condiciones &&CondicionesSemialgebraicasRe
 solucionCAD=TimeConstrained[CylindricalDecomposition[CondicionesSemialgebraicas2, Sort[DeleteDuplicates@Cases[CondicionesSemialgebraicas2,_Symbol,Infinity]]],tiempo,"Se alcanz\[OAcute] el tiempo impuesto sin llegar a una soluci\[OAcute]n"];
 ejemplo=If[solucionCAD==="Se alcanz\[OAcute] el tiempo impuesto sin llegar a una soluci\[OAcute]n",TimeConstrained[First[FindInstance[CondicionesSemialgebraicas2,Sort[DeleteDuplicates@Cases[CondicionesSemialgebraicas2,_Symbol,Infinity]], Reals]],tiempo,"Se alcanz\[OAcute] el tiempo impuesto sin llegar a una soluci\[OAcute]n"]];
 If[solucionCAD==="Se alcanz\[OAcute] el tiempo impuesto sin llegar a una soluci\[OAcute]n",Print["Intento de buscar un ejemplo sin CAD"]];
-If[solucionCAD==="Se alcanz\[OAcute] el tiempo impuesto sin llegar a una soluci\[OAcute]n",Print[ejemplo]];solucionCAD=If[solucionCAD==="Se alcanz\[OAcute] el tiempo impuesto sin llegar a una soluci\[OAcute]n",ejemplo,solucionCAD];
+If[solucionCAD==="Se alcanz\[OAcute] el tiempo impuesto sin llegar a una soluci\[OAcute]n",Print[ejemplo]];
+solucionCAD=If[solucionCAD==="Se alcanz\[OAcute] el tiempo impuesto sin llegar a una soluci\[OAcute]n",ejemplo,solucionCAD];
 Return[solucionCAD];
 ];
 
@@ -278,7 +280,7 @@ RacemicSSEqns= DeleteDuplicates[SSEqns /.racemicSubstitution];
 RacemicConditions = GetRacemicConditions[Reacciones];
 EspeciesL = GetLSpecies[Reacciones];
 Js = GetJacobianMatrix[Reacciones,rates];
-Jsracemic = Js /. racemicSubstitution;Print["Matriz Jacobiana del sistema con sustituci\[OAcute]n de las condiciones rac\[EAcute]micas"];
+Jsracemic = Js /. racemicSubstitution;
 rcond = Length[racemicSubstitution];
 MatrizA = Jsracemic[[1 ;; rcond, 1 ;; rcond]];
 MatrizB = Jsracemic[[1 ;; rcond, rcond + 1 ;; 2 rcond]];
@@ -339,6 +341,12 @@ reactionratesList=N[Table[Reacciones[[i]] -> rates[[i]],{i,Length[Reacciones]}] 
 jsoncontent={"_WARNING!_"->"This file was generated using CHEMKINLATOR. Any change to the file could make it unreadable, modify it at your own risk.","network"->{"concentrations"->concentrationsList,"rates"->reactionratesList},"simulation details"->{"ATOL"->ATOL,"Delta"->delta,"RTOL"->RTOL,"T_0"->T0,"Tmax"->Tmax},"species to plot"->{},"tabs"->{{"name"->"Time Series","type"->"timeseries"}},"version"->0.3`};
 Export[SystemDialogInput["FileSave","simulacion.simu.json"],jsoncontent,"JSON"];
 Return[jsoncontent];
+];
+
+GetReactionsAndRates[reacciones_,Rates_] := Module [{Reacciones,rates},
+Reacciones=Quiet[ClausuraDual[reacciones]];
+rates=If[Length[Rates]==0,GetRates[Reacciones], Rates];
+Return[Table[{Reacciones[[i]], rates[[i]]}, {i,Length[rates]}]]];
 ];
 
 End[]
