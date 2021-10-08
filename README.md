@@ -1,5 +1,7 @@
 # SACNA (Semi-Algebraic Chemical Network Analyzer)
 
+![Texto alternativo](sacna_logo.png)
+
 SACNA is a Mathematica Package developed by Daniel Fula and J. Montoya in order to detect the chemical reaction networks that exhibit chiral
 amplificators using the Collins' algorithm. The package provides 2 ways of analysis and a simulator.
 
