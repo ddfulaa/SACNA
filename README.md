@@ -12,7 +12,7 @@ amplificators using the Collins' algorithm. The package provides 2 ways of analy
 * Mathematica 12
 
 ## How to use it
-Some Mathematica notebooks (and their corresnponding PDFs) with explanations of the package usage can be found in the Tutorial folder.
+Some Mathematica notebooks (and their respective PDFs) with explanations of the package usage can be found in the Tutorial folder.
 
-## LICENSE
+## License
 This code is released under Apache 2.0
